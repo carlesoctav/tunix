@@ -38,6 +38,11 @@ dependencies = [
   "tqdm",
   "transformers",
   "hf_transfer", # Huggingface caching in CI
+  "joblib>=1.5.2",
+  "draccus>=0.11.5",
+  "jax[tpu]>=0.8.0",
+  "tpu-info>=0.7.1",
+  "kaggle>=1.8.2",
 ]
 
 [project.optional-dependencies]

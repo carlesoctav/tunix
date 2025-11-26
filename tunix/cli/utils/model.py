@@ -373,6 +373,15 @@ def create_model(
     )
     tokenizer_path = 'gs://gemma-data/tokenizers/tokenizer_gemma3.model'
 
+  elif model_name.startswith('gemma3') and model_source == 'local':
+
+    ckpt_path = model_config['model_id']
+    model_params = obtain_model_params(model_name)
+    model = gemma3_params_lib.create_model_from_checkpoint(
+        ckpt_path, model_params, mesh
+    )
+    tokenizer_path = os.path.join(os.path.dirname(ckpt_path), 'tokenizer.model')
+
   # TODO(sizhi): Remove gemma conversion logic once load safetensors for
   # gemma is ready.
   elif model_name.startswith('gemma') and model_source == 'kaggle':
