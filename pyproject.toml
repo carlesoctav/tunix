@@ -43,6 +43,10 @@ dependencies = [
   "jax[tpu]>=0.8.0",
   "tpu-info>=0.7.1",
   "kaggle>=1.8.2",
+  "pandas>=2.3.3",
+  "tinker-cookbook>=0.0.0",
+  "tinker>=0.5.1",
+  "wandb>=0.23.0",
 ]
 
 [project.optional-dependencies]

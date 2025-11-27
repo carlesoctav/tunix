@@ -438,6 +438,7 @@ class TokenizeAndRegexReasoning(grain.transforms.Map):
     tokenizer_path: str
     column: str
     max_length: int
+    padding: bool
 
     def __post_init__(self):
         self._tokenizer = None
@@ -464,8 +465,8 @@ class TokenizeAndRegexReasoning(grain.transforms.Map):
             return_tensors = "np",
             return_attention_mask = False,
             return_token_type_ids = False,
-            padding = "max_length", 
             max_length = 2048,
+            padding = "max_length" if self.padding else False
         )
         return {
             "input_ids": np.squeeze(tokenized["input_ids"], axis = 0),
@@ -482,10 +483,11 @@ class TrainMixDataConfig:
     weights: list[float] | None = None 
     chat_column: str = "" 
     num_workers: int = 0
-    per_worker_buffer_size: int = 1000
+    per_worker_buffer_size: int = 100
     batch_size: int | None = None
     use_fast_mp: bool  = False
     max_length: int = 2048
+    padding: bool = True 
 
     def make(self) -> grain.IterDataset:
         datasets = []
@@ -509,7 +511,8 @@ class TrainMixDataConfig:
         tokenize = TokenizeAndRegexReasoning(
             tokenizer_path=self.tokenizer_path,
             column=self.chat_column,
-            max_length=self.max_length
+            max_length=self.max_length,
+            padding = self.padding
         )
 
         mixed = mixed.map(tokenize)

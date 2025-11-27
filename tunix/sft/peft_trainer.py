@@ -600,7 +600,7 @@ class PeftTrainer:
     if eval_ds:
       self._run_eval(eval_ds, eval_step)
 
-    if self.config.max_steps is not None and self._pbar is None:
+    if self._pbar is None:
       self._pbar = progress_bar.ProgressBar(
           metrics_prefix=self.metrics_prefix,
           metrics_logger=self.metrics_logger,
